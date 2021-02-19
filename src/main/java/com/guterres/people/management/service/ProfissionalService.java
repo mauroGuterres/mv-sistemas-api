@@ -84,13 +84,13 @@ public class ProfissionalService {
     }
 
     public List<Profissional> getByFilter(ProfissionalFilter pf, Pageable pageable) {
-        List<Profissional> result = repository.findAll(pageable).
+        List<Profissional> result = pf != null ? repository.findAll(pageable).
                 stream().
                 filter(p -> (pf.Nome != null && p.getNome().contains(pf.Nome))
                         || (pf.Celular != null && p.getCelular().contains(pf.Celular))
                         || (pf.Funcao != null && p.getFuncao().contains(pf.Funcao))
                         || (pf.Endereco != null && p.getEndereco().contains(pf.Endereco))
-                        || (pf.NomeEstabelecimento != null && p.getEstabelecimento().stream().anyMatch(e -> e.getNome().contains(pf.NomeEstabelecimento)))).collect(Collectors.toList());
+                        || (pf.NomeEstabelecimento != null && p.getEstabelecimento().stream().anyMatch(e -> e.getNome().contains(pf.NomeEstabelecimento)))).collect(Collectors.toList()) : repository.findAll(pageable).stream().collect(Collectors.toList());
         return result;
     }
 
