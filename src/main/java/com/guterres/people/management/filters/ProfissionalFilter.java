@@ -7,5 +7,6 @@ public class ProfissionalFilter {
    public String Funcao;
    public String Endereco;
    public String NomeEstabelecimento;
+   public String TelefoneResidencial;
 
 }

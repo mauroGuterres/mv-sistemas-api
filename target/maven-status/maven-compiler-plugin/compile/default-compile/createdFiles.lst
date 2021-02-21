@@ -1,7 +1,9 @@
+com\guterres\people\management\filters\predicates\ProfissionalPredicate.class
 com\guterres\people\management\service\EstabelecimentoService.class
 com\guterres\people\management\dto\ProfissionalEstabelecimento.class
 com\guterres\people\management\service\ProfissionalService.class
 com\guterres\people\management\sqlite\SQLDialect.class
+com\guterres\people\management\filters\predicates\EstabelecimentoPredicate.class
 com\guterres\people\management\entity\Profissional.class
 com\guterres\people\management\entity\Estabelecimento.class
 com\guterres\people\management\repository\ProfissionalRepository.class

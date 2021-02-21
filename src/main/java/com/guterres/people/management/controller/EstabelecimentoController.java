@@ -30,8 +30,8 @@ public class EstabelecimentoController {
         return service.findAll(pageable);
     }
 
-    @GetMapping("buscar/{Page}/{Quantity}")
-    public List<Estabelecimento> BuscaPaginada(@RequestBody EstabelecimentoFilter ef, @PathVariable Integer Page, @PathVariable  Integer Quantity) {
+    @PostMapping("buscar/{Page}/{Quantity}")
+    public List<Estabelecimento> BuscaPaginada(@RequestBody(required = false) EstabelecimentoFilter ef, @PathVariable Integer Page, @PathVariable  Integer Quantity) {
         Pageable pageable = PageRequest.of(Page, Quantity);
         return service.getByFilter(ef,pageable);
     }

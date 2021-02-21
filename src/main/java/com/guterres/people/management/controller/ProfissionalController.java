@@ -29,7 +29,7 @@ public class ProfissionalController {
     }
 
 
-    @GetMapping("buscar/{Page}/{Quantity}")
+    @PostMapping("buscar/{Page}/{Quantity}")
     public List<Profissional> BuscaPaginada(@RequestBody(required = false) ProfissionalFilter pf, @PathVariable Integer Page, @PathVariable Integer Quantity){
         Pageable pageable = PageRequest.of(Page, Quantity);
         List<Profissional> result = service.getByFilter(pf,pageable);

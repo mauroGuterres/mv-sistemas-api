@@ -1,7 +1,8 @@
 package com.guterres.people.management.service;
 
 import com.guterres.people.management.entity.Profissional;
-import com.guterres.people.management.filters.ProfissionalFilter;
+import com.guterres.people.management.filters.*;
+import com.guterres.people.management.filters.predicates.ProfissionalPredicate;
 import com.guterres.people.management.repository.ProfissionalRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
 public class ProfissionalService {
 
     private String mensagem;
+    private ProfissionalPredicate profissionalPredicate = new ProfissionalPredicate();
 
     @Autowired
     ProfissionalRepository repository;
@@ -86,11 +89,8 @@ public class ProfissionalService {
     public List<Profissional> getByFilter(ProfissionalFilter pf, Pageable pageable) {
         List<Profissional> result = pf != null ? repository.findAll(pageable).
                 stream().
-                filter(p -> (pf.Nome != null && p.getNome().contains(pf.Nome))
-                        || (pf.Celular != null && p.getCelular().contains(pf.Celular))
-                        || (pf.Funcao != null && p.getFuncao().contains(pf.Funcao))
-                        || (pf.Endereco != null && p.getEndereco().contains(pf.Endereco))
-                        || (pf.NomeEstabelecimento != null && p.getEstabelecimento().stream().anyMatch(e -> e.getNome().contains(pf.NomeEstabelecimento)))).collect(Collectors.toList()) : repository.findAll(pageable).stream().collect(Collectors.toList());
+                filter(this.profissionalPredicate.getPredicate(pf)).collect(Collectors.toList()) :
+                repository.findAll(pageable).stream().collect(Collectors.toList());
         return result;
     }
 

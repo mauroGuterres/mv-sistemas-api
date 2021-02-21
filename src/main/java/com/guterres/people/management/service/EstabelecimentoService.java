@@ -5,6 +5,7 @@ import com.guterres.people.management.entity.Estabelecimento;
 import com.guterres.people.management.entity.Profissional;
 import com.guterres.people.management.filters.EstabelecimentoFilter;
 import com.guterres.people.management.filters.ProfissionalFilter;
+import com.guterres.people.management.filters.predicates.EstabelecimentoPredicate;
 import com.guterres.people.management.repository.EstabelecimentoRepository;
 import com.guterres.people.management.repository.ProfissionalRepository;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class EstabelecimentoService {
 
     String mensagem;
+    EstabelecimentoPredicate estabelecimentoPredicate = new EstabelecimentoPredicate();
 
     @Autowired
     public EstabelecimentoRepository repository;
@@ -47,12 +49,9 @@ public class EstabelecimentoService {
     }
 
     public List<Estabelecimento> getByFilter(EstabelecimentoFilter ef, Pageable pageable) {
-        List<Estabelecimento> result = repository.findAll(pageable).
+        List<Estabelecimento> result = ef != null ? repository.findAll(pageable).
                 stream().
-                filter(est -> (ef.Nome != null && est.getNome().contains(ef.Nome))
-                        || (ef.Telefone != null && est.getTelefone().contains(ef.Telefone))
-                        || (ef.Endereco != null && est.getEndereco().contains(ef.Endereco))
-                        || (ef.NomeProfissional != null && est.getProfissional().stream().anyMatch(e -> e.getNome().contains(ef.NomeProfissional)))).collect(Collectors.toList());
+                filter(this.estabelecimentoPredicate.getPredicate(ef)).collect(Collectors.toList()) : repository.findAll(pageable).stream().collect(Collectors.toList());
         return result;
     }
 
