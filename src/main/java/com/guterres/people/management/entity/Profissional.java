@@ -26,7 +26,7 @@ public class Profissional {
     private Set<Estabelecimento> Estabelecimento;
 
     public Integer getId() {
-        return this.Id == null ? 0 : this.Id;
+        return this.Id;
     }
 
     public String getNome() {

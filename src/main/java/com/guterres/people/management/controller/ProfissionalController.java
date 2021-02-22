@@ -1,5 +1,6 @@
 package com.guterres.people.management.controller;
 
+import com.guterres.people.management.entity.Estabelecimento;
 import com.guterres.people.management.entity.Profissional;
 import com.guterres.people.management.filters.ProfissionalFilter;
 import com.guterres.people.management.service.ProfissionalService;
@@ -39,9 +40,13 @@ public class ProfissionalController {
     @PostMapping("cadastrar")
     public String cadastrar(@RequestBody Profissional profissional) {
         try {
-            mensagem = service.create(profissional);
+            if(profissional.getId() == null){
+                mensagem = service.create(profissional);
+            }else{
+                mensagem = service.update(profissional);
+            }
         } catch (Exception ex) {
-            mensagem = ex.getMessage();
+            mensagem =  ex.getMessage();
         }
         return mensagem;
     }
@@ -65,6 +70,20 @@ public class ProfissionalController {
              mensagem = ex.getMessage();
         }
         return mensagem;
+    }
+
+    @GetMapping("get/{Id}")
+    public Profissional getById(@PathVariable Integer Id) {
+        Profissional result;
+        try {
+            result = service.getById(Id);
+            return result;
+        } catch (Exception ex) {
+            result = new Profissional();
+        }
+
+        return result;
+
     }
 
 

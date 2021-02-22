@@ -1,5 +1,6 @@
 package com.guterres.people.management.service;
 
+import com.guterres.people.management.entity.Estabelecimento;
 import com.guterres.people.management.entity.Profissional;
 import com.guterres.people.management.filters.*;
 import com.guterres.people.management.filters.predicates.ProfissionalPredicate;
@@ -30,13 +31,8 @@ public class ProfissionalService {
     public String create(Profissional profissional) {
         mensagem = "";
         try {
-            boolean canCreate = profissional.getId() == 0;
-            if (canCreate) {
-                repository.save(profissional);
-                mensagem = "Profissional inserido com sucesso!";
-            }else{
-                mensagem = "Tentativa de alterar dados de outro registro via create. A alteração não será feita!";
-            }
+            repository.save(profissional);
+            mensagem = "Profissional inserido com sucesso!";
         } catch (Exception ex) {
             mensagem = ex.getMessage();
         }
@@ -82,6 +78,25 @@ public class ProfissionalService {
             }
         } catch (Exception ex) {
             mensagem = "Não foi possível excluir. Profissional não encontrado.";
+        }
+        return mensagem;
+    }
+
+    public Profissional getById(Integer id) {
+        Profissional profissional = repository.findById(id).isPresent() ? repository.findById(id).get() : new Profissional();
+        return profissional;
+    }
+
+    @Transactional
+    public String update(Profissional profissional) {
+        mensagem = "";
+        boolean profissionalExiste = repository.findById(profissional.getId()).isPresent();
+        if (profissionalExiste) {
+            Profissional toUpdate = profissional;
+            repository.save(toUpdate);
+            mensagem = "Profissional alterado com sucesso!";
+        } else {
+            mensagem = "Profissional não encontrado";
         }
         return mensagem;
     }
