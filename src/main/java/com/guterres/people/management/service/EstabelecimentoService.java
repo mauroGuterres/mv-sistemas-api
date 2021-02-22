@@ -85,7 +85,8 @@ public class EstabelecimentoService {
     }
 
     public Estabelecimento getById(Integer id) {
-        return repository.getOne(id);
+        Estabelecimento estabelecimento = repository.findById(id).isPresent() ? repository.findById(id).get() : new Estabelecimento();
+        return estabelecimento;
     }
 
     public List<Estabelecimento> findAll(Pageable pageable) {

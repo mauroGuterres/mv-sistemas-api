@@ -70,6 +70,20 @@ public class EstabelecimentoController {
 
     }
 
+    @GetMapping("get/{Id}")
+    public Estabelecimento getById(@PathVariable Integer Id) {
+        Estabelecimento result;
+        try {
+            result = service.getById(Id);
+            return result;
+        } catch (Exception ex) {
+            result = new Estabelecimento();
+        }
+
+        return result;
+
+    }
+
     @PutMapping("linkProfissionalEstabelecimento")
     public String linkProfissionalEstabelecimento(@RequestBody ProfissionalEstabelecimento pe) {
         mensagem = "";
