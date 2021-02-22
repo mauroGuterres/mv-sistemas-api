@@ -34,13 +34,8 @@ public class EstabelecimentoService {
     public String create(Estabelecimento estabelecimento) {
         mensagem = "";
         try {
-            boolean canCreate = estabelecimento.getId() == 0;
-            if (canCreate) {
-                repository.save(estabelecimento);
-                mensagem = "Estabelecimento inserido com sucesso!";
-            }else{
-                mensagem = "Tentativa de alterar dados de outro registro via create. A alteração não será feita!";
-            }
+            repository.save(estabelecimento);
+            mensagem = "Estabelecimento inserido com sucesso!";
         } catch (Exception ex) {
             mensagem = ex.getMessage();
         }

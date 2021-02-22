@@ -39,7 +39,11 @@ public class EstabelecimentoController {
     @PostMapping("cadastrar")
     public String cadastrar(@RequestBody Estabelecimento estabelecimento) {
         try {
-             mensagem = service.create(estabelecimento);
+             if(estabelecimento.getId() == null){
+                 mensagem = service.create(estabelecimento);
+             }else{
+                 mensagem = service.update(estabelecimento);
+             }
         } catch (Exception ex) {
             mensagem =  ex.getMessage();
         }
