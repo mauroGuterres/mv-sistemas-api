@@ -70,14 +70,14 @@ public class ProfissionalController {
     }
 
     @DeleteMapping("excluir/{Id}")
-    public String excluir(@PathVariable  Integer Id){
+    public Object excluir(@PathVariable  Integer Id){
         mensagem = "";
         try{
             mensagem = service.Delete(Id);
         }catch(Exception ex){
              mensagem = ex.getMessage();
         }
-        return mensagem;
+        return new String[]{mensagem};
     }
 
     @GetMapping("get/{Id}")
