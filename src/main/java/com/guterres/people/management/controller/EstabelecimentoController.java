@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,9 +36,9 @@ public class EstabelecimentoController {
         Pageable pageable = PageRequest.of(Page, Quantity);
         return service.getByFilter(ef,pageable);
     }
-
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("cadastrar")
-    public String cadastrar(@RequestBody Estabelecimento estabelecimento) {
+    public Object cadastrar(@RequestBody Estabelecimento estabelecimento) {
         try {
              if(estabelecimento.getId() == null){
                  mensagem = service.create(estabelecimento);
@@ -47,7 +48,7 @@ public class EstabelecimentoController {
         } catch (Exception ex) {
             mensagem =  ex.getMessage();
         }
-        return mensagem;
+        return new String[]{mensagem};
     }
 
     @PutMapping("atualizar")

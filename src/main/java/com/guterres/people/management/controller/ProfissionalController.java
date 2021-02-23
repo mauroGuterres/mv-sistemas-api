@@ -5,12 +5,19 @@ import com.guterres.people.management.entity.Profissional;
 import com.guterres.people.management.filters.ProfissionalFilter;
 import com.guterres.people.management.service.ProfissionalService;
 import org.aspectj.weaver.ast.Var;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 @RestController
@@ -36,9 +43,10 @@ public class ProfissionalController {
         List<Profissional> result = service.getByFilter(pf,pageable);
         return result;
     }
-
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("cadastrar")
-    public String cadastrar(@RequestBody Profissional profissional) {
+    public Object cadastrar(@RequestBody Profissional profissional) {
+
         try {
             if(profissional.getId() == null){
                 mensagem = service.create(profissional);
@@ -48,7 +56,7 @@ public class ProfissionalController {
         } catch (Exception ex) {
             mensagem =  ex.getMessage();
         }
-        return mensagem;
+        return new String[]{mensagem};
     }
 
     @PutMapping("atualizar")
